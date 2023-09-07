@@ -1,10 +1,11 @@
 name: Test
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run: 
+    workflows: ["Docker Image CI"]
+    types:
+      - completed
+    
 
 jobs:
   test:
@@ -21,5 +22,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Run Tests
-      run: dotnet test ./tests/UrlShortener.Application.Integration.Tests/ --no-build
+    - name: Run and Build Tests
+      run: |
+        dotnet build ./tests/UrlShortener.Application.Integration.Tests/UrlShortener.Application.Integration.Tests.csproj
+        dotnet test ./tests/UrlShortener.Application.Integration.Tests/UrlShortener.Application.Integration.Tests.csproj --no-build
