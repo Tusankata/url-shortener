@@ -1,0 +1,40 @@
+version: '3.8'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  urlshortener-api:
+    image: docker.io/library/urlshortener-api
+    depends_on:
+      - urlshortener-db
+    ports:
+      - 8080:80
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=User ID=${MSSQL_USER_ID};Password=${MSSQL_PASSWORD};Server=host.docker.internal,1433;Database=UrlShortener;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  urlshortener-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: urlshortener-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=$TrongP@4assw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "5433:1433"
+    restart: always
+    volumes:
+      - appdata:/var/opt/mssql
+    networks:
+      - dev
+
+volumes:
+  appdata:

@@ -1,0 +1,15 @@
+.vscode/
+.vs/
+.idea/
+
+*.suo
+*.user
+*.sln.docstates
+.env
+
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/bin/
+**/obj/
+
