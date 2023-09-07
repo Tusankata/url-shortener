@@ -86,6 +86,7 @@ internal sealed class CreateShortUrlHandler : IRequestHandler<CreateShortUrlComm
 
         var replacementCode = availableCode.MarkAsUsed();
 
+        // TODO: See why replacement code is saved with value [NULL] in db.
         _context.Remove(availableCode);
         await _context.AddAsync(shortUrl, cancellationToken);
         await _context.AddAsync(replacementCode, cancellationToken);
