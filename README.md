@@ -4,7 +4,7 @@
 
 A small API project that shortens URLs. Written mainly for practicing purposes.
 
-### Technologies and Patterns
+## Technologies and Patterns
 
 The architecture is based on this [project](https://github.com/nadirbad/VerticalSliceArchitecture/).
 
@@ -16,22 +16,22 @@ The architecture is based on this [project](https://github.com/nadirbad/Vertical
 - [Serilog](https://github.com/serilog/serilog)
 - [.NET Test Container](https://github.com/testcontainers/testcontainers-dotnet), [xUnit](https://xunit.net/), [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
 
-### Projects
+## Projects
 
 The solution has 2 projects.
-#### Api
+### Api
 
 The entry point of the application. All controllers are moved to the **Application** project.
 
-#### Application
+### Application
 
 Contains all the application logic. Services, Entities and other common concerns are here. The business logic is in the `Features` folder, each feature file contains the endpoint, the command/query handlers, validators and the response/request models.
 
-### Getting Started
+## Getting Started
 
 1. Install the latest [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 
-#### Docker
+### Docker
 
 To run the application inside a docker container, you will need to set-up the database connection string in the `docker-compose.yml` file.
 
@@ -53,7 +53,7 @@ Then you can run the application:
 (or `docker-compose up --build` if you want to see the logs)
 *Note: The first time you run the application, it will take a while to download the images and build the application.*
 
-#### Run Locally
+### Run Locally
 
 To run the application locally, you will need to set-up the database connection string in the `appsettings.json` file.
 
@@ -63,7 +63,7 @@ After that, you will need to create the database:
 Then you can run the application:
 `dotnet run -p .\src\UrlShortener.Api\`
 
-#### Testing
+### Testing
 
 Currently, my integration tests are ran against a docker test container. To run the tests, simply run:
 `dotnet test .\tests\UrlShortener.Application.Integration.Tests\`
@@ -72,7 +72,7 @@ Currently, my integration tests are ran against a docker test container. To run 
 
 **IMPORTANT**: You will need to have Docker Desktop installed and running for the tests to run.
 
-### Thoughts
+## Thoughts
 
 A lot of the technologies used in this project are new to me, so I am still learning how to use them properly. I am also trying to follow the best practices and patterns as much as I can, but I am sure there are a lot of things that can be improved.
 
@@ -85,6 +85,6 @@ There's quite a few things I'd like to improve in the future:
 
 The list goes on, but I think this is a good start.
 
-### License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
