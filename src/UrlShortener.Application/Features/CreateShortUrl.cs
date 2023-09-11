@@ -1,6 +1,5 @@
 using Carter;
 using Carter.OpenApi;
-using Carter.Response;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using UrlShortener.Application.Common.Extensions;
 using UrlShortener.Application.Common.Models.Enums;
@@ -45,6 +43,7 @@ public class CreateShortUrlModule : ICarterModule
             .WithTags("URL Shortening")
             .Produces(StatusCodes.Status201Created)
             .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest)
+            .Produces<ProblemDetails>(StatusCodes.Status500InternalServerError)
             .IncludeInOpenApi();
     }
 }
@@ -84,12 +83,10 @@ internal sealed class CreateShortUrlHandler : IRequestHandler<CreateShortUrlComm
             availableCode!.ToString()
         );
 
-        var replacementCode = availableCode.MarkAsUsed();
+        availableCode.MarkAsUsed();
+        _context.Update(availableCode);
 
-        // TODO: See why replacement code is saved with value [NULL] in db.
-        _context.Remove(availableCode);
-        await _context.AddAsync(shortUrl, cancellationToken);
-        await _context.AddAsync(replacementCode, cancellationToken);
+        _context.Add(shortUrl);
 
         await _context.SaveChangesAsync(cancellationToken);
 

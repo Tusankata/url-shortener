@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UrlShortener.Application.Entities;
+using UrlShortener.Application.ValueObjects;
 
 namespace UrlShortener.Application.Infrastructure.Persistence.Configurations;
 
@@ -14,9 +15,10 @@ public class ShortUrlCodeConfiguration : IEntityTypeConfiguration<ShortUrlCode>
         builder.Property(x => x.State).IsRequired();
         builder.Property(x => x.RowVersion).IsRowVersion();
 
-        builder.OwnsOne(x => x.Code, code =>
-        {
-            code.Property(x => x.Value).IsRequired();
-        });
+        builder.Property(x => x.Code)
+            .HasConversion(
+                code => code.Value,
+                value => Code.Create(value))
+            .IsRequired();
     }
 }

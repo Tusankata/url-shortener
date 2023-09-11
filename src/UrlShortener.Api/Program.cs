@@ -1,10 +1,8 @@
 using Carter;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using UrlShortener.Api.Properties.Middlewares;
 using UrlShortener.Application;
-using UrlShortener.Application.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

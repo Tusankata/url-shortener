@@ -15,6 +15,9 @@ public sealed class Code : ValueObject
     public static Code Create(string value) =>
         TryCreate(value) ?? throw new ArgumentException("Value cannot be null.");
 
+    public static Code Create(Code code) =>
+        TryCreate(code.Value) ?? throw new ArgumentException("Value cannot be null.");
+
     private static Code? TryCreate(string value) =>
         value is null
             ? null
